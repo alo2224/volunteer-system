@@ -24,7 +24,10 @@
                 <div class="row">
                      <div class="col-md-12 col-md-offset-0">
 
-                        <?php the_content();  ?>
+                        <?php the_content();  
+                            var_dump(the_terms(get_the_ID(),'priorytet'));
+                            var_dump(has_term('wazne','priorytet'))
+                        ?>
 
                         <?php endwhile; ?>
                         <?php else:  ?>

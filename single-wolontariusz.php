@@ -9,6 +9,7 @@
         console.log(iloscGodzinForm);
     }
 </script>
+<?php //acf_form_head(); ?>
 <?php get_header(); ?>
 <?php
     $user = 0;
@@ -19,6 +20,7 @@
       //  echo $user_id;
         $user = get_user_by('id', $user_id);
         $wolontariusz_id = get_user_meta($user_id, 'wolontariusz_id', true);
+        //var_dump(get_post_meta(get_the_ID()));
        // var_dump($user);
         //echo get_the_ID();
         //echo "\n";
@@ -48,13 +50,12 @@
         //TODO Add loging page redirect
     }
     if(isset($_POST['submit'])){
-        $fields = array();
-        $fields = array_map('sanitize_text_field', $_POST);
-       // var_dump($fields);
-       // var_dump(get_the_ID());
-        foreach($fields as $key => $val){
-            update_field($key,$val);
-        }
+       try{
+           update_wolontariusz_data($wolontariusz_id, $_POST);
+       }
+       catch(Exception $e){
+           echo 'Unexpected error' , $e->getMessage();
+       }
     }
     do_action( 'bwsplgns_display_pdf_print_buttons', 'bottom' );
     ?>
@@ -67,7 +68,9 @@
             <div class="row text-center">
             <?php 
                 $current_post_id = get_the_ID();
-                $data = get_fields($current_post_id);
+                //echo $current_post_id;
+                $data = get_fields();
+               // var_dump($data);
                 $data_objects = get_field_objects($current_post_id);
             //    var_dump($data_objects);
             //    var_dump($data);
@@ -90,14 +93,14 @@
             </div>
             <div class="row">
                  <div class="col-md-offset-4 col-md-4">
-                     <!-- Can be switch to a loop using get_field_objects() or not there is a problem with empty fields - I am unable to retrive the object if it's empty-->
+                     <!-- Can be switch to a loop using get_field_objects() or not there is a problem with empty fields - I am unable to retrive the object if it's empty 
                     <form enctype="multipart/form-data" method="post" action="">
                         <div class="form-group">
                           <label for="Imie">Imie</label>
                           <input name="imie" type="text" class="form-control" id="Imie" value="<?php echo (isset($data['imie']) ? $data['imie'] : '');?>" placeholder="Imie">
                         </div>
                         <div class="form-group">
-                          <label for="Nazwisko">Password</label>
+                          <label for="Nazwisko">Nazwisko</label>
                           <input name="nazwisko" type="text" class="form-control" id="Nazwisko" value="<?php echo (isset($data['nazwisko']) ? $data['nazwisko'] : '');?>" placeholder="Nazwisko">
                         </div>
                         <div class="form-group">
@@ -122,7 +125,7 @@
                         </div>
                         <div class="form-group">
                           <label for="uczelnia">Uczelnia</label>
-                          <input name="uczelnia" type="text" class="form-control" id="uczelnia" value="<?php echo (isset($data['uczelnia']) ? $data['uczelnia'] : '');?>" placeholder="Uczelnia">
+                          <input name="uczelnia" type="text" class="form-control" id="uczelnia" value="<?php echo (isset($data['nazwa_uczelni']) ? $data['nazwa_uczelni'] : '');?>" placeholder="Uczelnia">
                         </div>
                         <div class="form-group">
                           <label for="kierunek_studiow">Kierunek studiow</label>
@@ -148,17 +151,54 @@
                         <button type="submit" name="submit" class="btn btn-default">Submit</button>
                         </div>
                     </form>
-                     <!--
+                     -->
+                    
                      <form enctype="multipart/form-data" method="post" action="">
+                     
                      <?php 
                      foreach ($data_objects as $key => $value){
                          //var_dump($key);
-                         //var_dump($value);
-                         echo '<div class="form-group"><label for=' . $value["name"] . '>' . $value["label"] . '</label><input name=' . $value["name"] . ' type=. ' . $value["type"] . ' class="form-control" id=. ' . $value["label"] . ' value=' . $value["value"] . ' placeholder=. ' . $value["label"] . '></div>';
-                     }
+                        //var_dump($value);
+                         if(empty($value['value'])){
+                             $input_value = '""';
+                         }
+                        else{
+                            $input_value = $value['value'];     
+                        }
+                        if($value['type'] == 'radio'){
+                            if($value['name'] == 'typ_uzytkownika'){
+                                if($value['value'] == 'praktykant'){
+                                    $praktykant = true;
+                                }
+                                elseif($value['value'] == 'wolontariusz'){
+                                    $wolontariusz = true;
+                                }
+                                echo "<div class='form-group'><label for='wolontariusz'>Typ uzytkownika</label><div class='radio'><label class='radio-inline'><input type='radio' name={$value['name']} id='typ_uzytkownika' value='wolontariusz' " .($wolontariusz == true ? "checked" : '') . ">Wolontariusz</label><label class='radio-inline'><input type='radio' name={$value['name']} id='typ_uzytkownika' value='praktykant'" . ($praktykant == true ? "checked" : '') . ">Praktykant</label></div>";
+                                  
+                            }
+                        }
+                        else{
+                            echo "<div class='form-group'><label for= {$value['name']}> {$value['label']} </label><input name={$value['name']} type= {$value['type']} class=form-control id= {$value['name']}  value= $input_value placeholder= {$value['label']}></div>";
+                        }
+                         
+                    }
                      ?>
-                    -->
                  </div>
+                   
+        </div>
+        <!--
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-3">
+                            <?php /* The loop */ ?>
+			<?php //while ( have_posts() ) : the_post(); ?>
+
+				<?php //acf_form(); ?>
+
+                        <?php //endwhile; ?>
+                        </div>
+                    </div>
+        -->
+                
             </div>
         </div>
     </div>

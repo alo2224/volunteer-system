@@ -13,8 +13,37 @@ function wolontariat_register_form() {
     $imie = ( ! empty( $_POST['imie'] ) ) ? trim( $_POST['imie'] ) : '';
     $nazwisko = ( ! empty( $_POST['nazwisko'] ) ) ? trim( $_POST['nazwisko'] ) : '';
     $pesel = ( ! empty( $_POST['pesel'] ) ) ? trim( $_POST['pesel'] ) : '';
+    $numer_dowodu = ( ! empty( $_POST['numer_dowodu'] ) ) ? trim( $_POST['numer_dowodu'] ) : '';
+    $adres = ( ! empty( $_POST['adres'] ) ) ? trim( $_POST['adres'] ) : '';
+    $kod_pocztowy = ( ! empty( $_POST['kod_pocztowy'] ) ) ? trim( $_POST['kod_pocztowy'] ) : '';
+    $telefon = ( ! empty( $_POST['telefon'] ) ) ? trim( $_POST['telefon'] ) : '';
+    $numer_konta = ( ! empty( $_POST['numer_konta'] ) ) ? trim( $_POST['numer_konta'] ) : '';
+    $nazwa_uczelni = ( ! empty( $_POST['nazwa_uczelni'] ) ) ? trim( $_POST['nazwa_uczelni'] ) : '';
+    $kierunek_studiow = ( ! empty( $_POST['kierunek_studiow'] ) ) ? trim( $_POST['kierunek_studiow'] ) : '';
+    $rok_studiow = ( ! empty( $_POST['rok_studiow'] ) ) ? trim( $_POST['rok_studiow'] ) : '';
+    $typ_uzytkownika = ( ! empty( $_POST['typ_uzytkownika'] ) ) ? trim( $_POST['typ_uzytkownika'] ) : '';
+    $ilosc_godzin_wolontariatu = ( ! empty( $_POST['ilosc_godzin_wolontariatu'] ) ) ? trim( $_POST['ilosc_godzin_wolontariatu'] ) : '';
+    
         //Data validation done with esc_attr 
         ?>
+        <script>
+            window.onload = function(){
+                var iloscGodzinForm = document.getElementById('ilosc_godzin_form');
+                var praktykantRadioButton = document.getElementById('praktykant');
+                var wolontariuszRadioButton = document.getElementById('wolontariusz');
+                var iloscGodzinWolontariatuInput = document.getElementById('ilosc_godzin_wolontariatu');
+                praktykantRadioButton.onclick = function(){
+                    iloscGodzinForm.style.display = 'block';
+                }
+                wolontariuszRadioButton.onclick = function(){
+                    iloscGodzinForm.style.display = 'none';
+                    console.log(iloscGodzinForm);
+                    iloscGodzinWolontariatuInput.value = '';
+                }
+                console.log(iloscGodzinForm);
+                console.log(wolontariuszRadioButton);
+            }
+        </script>
         <p>
             <label for="imie"><?php _e( 'Imie', 'mydomain' ) ?><br />
             <input type="text" name="imie" id="imie" class="input" value="<?php echo esc_attr( wp_unslash( $imie ) ); ?>" size="25" /></label>
@@ -29,6 +58,12 @@ function wolontariat_register_form() {
             <input type="text" name="pesel" id="pesel" class="input" value="<?php echo esc_attr( wp_unslash( $pesel ) ); ?>" size="25" /></label>
         </p>
         <p>
+            <label for="numer_dowodu"><?php _e( 'Numer dowodu', 'mydomain' ) ?><br />
+            <input type="text" name="numer_dowodu" id="numer_dowodu" class="input" value="<?php echo esc_attr( wp_unslash( $numer_dowodu ) ); ?>" size="25" /></label>
+        </p>
+        <div>
+            <h4>Dane kontaktowe</h4>
+        <p>
             <label for="adres"><?php _e( 'Adres', 'mydomain' ) ?><br />
             <input type="text" name="adres" id="adres" class="input" value="<?php echo esc_attr( wp_unslash( $adres ) ); ?>" size="25" /></label>
         </p>
@@ -37,36 +72,93 @@ function wolontariat_register_form() {
             <input type="text" name="kod_pocztowy" id="kod_pocztowy" class="input" value="<?php echo esc_attr( wp_unslash( $kod_pocztowy ) ); ?>" size="25" /></label>
         </p>
         <p>
-            <label for="numer_dowodu"><?php _e( 'Numer dowodu', 'mydomain' ) ?><br />
-            <input type="text" name="numer_dowodu" id="numer_dowodu" class="input" value="<?php echo esc_attr( wp_unslash( $numer_dowodu ) ); ?>" size="25" /></label>
+            <label for="telefon"><?php _e( 'Telefon', 'mydomain' ) ?><br />
+            <input type="text" name="telefon" id="telefon" class="input" value="<?php echo esc_attr( wp_unslash( $telefon ) ); ?>" size="25" /></label>
         </p>
         <p>
-            <label for="numer_dowodu"><?php _e( 'Numer dowodu', 'mydomain' ) ?><br />
-            <input type="text" name="numer_dowodu" id="numer_dowodu" class="input" value="<?php echo esc_attr( wp_unslash( $numer_dowodu ) ); ?>" size="25" /></label>
+            <label for="numer_konta"><?php _e( 'Numer konta', 'mydomain' ) ?><br />
+            <input type="text" name="numer_konta" id="numer_konta" class="input" value="<?php echo esc_attr( wp_unslash( $numer_konta ) ); ?>" size="25" /></label>
         </p>
-        <p>
-            <label for="numer_dowodu"><?php _e( 'Numer dowodu', 'mydomain' ) ?><br />
-            <input type="text" name="numer_dowodu" id="numer_dowodu" class="input" value="<?php echo esc_attr( wp_unslash( $numer_dowodu ) ); ?>" size="25" /></label>
-        </p>
-        <p>
-            <label for="numer_dowodu"><?php _e( 'Numer dowodu', 'mydomain' ) ?><br />
-            <input type="text" name="numer_dowodu" id="numer_dowodu" class="input" value="<?php echo esc_attr( wp_unslash( $numer_dowodu ) ); ?>" size="25" /></label>
-        </p>
+        </div>
+        <div>
+            <h4>Uczelnia</h4>
+            <p>
+                <label for="nazwa_uczelni"><?php _e( 'Nazwa uczelni', 'mydomain' ) ?><br />
+                <input type="text" name="nazwa_uczelni" id="nazwa_uczelni" class="input" value="<?php echo esc_attr( wp_unslash( $nazwa_uczelni ) ); ?>" size="25" /></label>
+            <p>
+                <label for="kierunek_studiow"><?php _e( 'Kierunek studiow', 'mydomain' ) ?><br />
+                <input type="text" name="kierunek_studiow" id="kierunek_studiow" class="input" value="<?php echo esc_attr( wp_unslash( $kierunek_studiow ) ); ?>" size="25" /></label>
+            </p>
+            <p>
+                <label for="rok_studiow"><?php _e( 'Rok studiow', 'mydomain' ) ?><br />
+                <input type="text" name="rok_studiow" id="rok_studiow" class="input" value="<?php echo esc_attr( wp_unslash( $rok_studiow ) ); ?>" size="25" /></label>
+            </p>
+            
+        </div>
+        <div>
+            <h4>Typ uzytkownika</h4>
+            <p>
+                <input <?php if($typ_uzytkownika == 'wolontariusz'){echo 'checked';}?> type="radio" name="typ_uzytkownika" id="wolontariusz"  value="<?php echo "wolontariusz" ?>" size="25" />
+                <label for="typ_uzytkownika"><?php _e( 'Wolontariusz', 'mydomain' ) ?></label>
+            </p>
+            <p>
+                <input <?php if($typ_uzytkownika == 'praktykant'){echo 'checked';}?> type="radio" name="typ_uzytkownika" id="praktykant"  value="<?php echo "praktykant" ?>" size="25" />
+                <label for="typ_uzytkownika"><?php _e( 'Praktykant', 'mydomain' ) ?></label>
+            </p>
+            <p id="ilosc_godzin_form" <?php if($typ_uzytkownika != 'praktykant'){ echo 'style="display: none"';} ?>>
+                <label for="ilosc_godzin_wolontariatu">Ilosc godzin wolontariatu</label>
+                <input name="ilosc_godzin_wolontariatu" type="text" class="form-control" id="ilosc_godzin_wolontariatu" value="<?php echo esc_attr( wp_unslash( $ilosc_godzin_wolontariatu ) ); ?>">
+            </p>
+        </div>
+        </div>
         <?php
     }
 
     //2. Add empty string validation errors. 
     add_filter( 'registration_errors', 'wol_registration_errors', 10, 3 );
     function wol_registration_errors( $errors, $sanitized_user_login, $user_email ) {
-        
+        /*
         if ( empty( $_POST['imie'] ) || ! empty( $_POST['imie'] ) && trim( $_POST['imie'] ) == '' ) {
             $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać imie!.', 'mydomain' ) );
         }
-		
 	if ( empty( $_POST['nazwisko'] ) || ! empty( $_POST['nazwisko'] ) && trim( $_POST['nazwisko'] ) == '' ){
             $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać nazwisko!.', 'mydomain' ) );
         }
-
+        if ( empty( $_POST['pesel'] ) || ! empty( $_POST['pesel'] ) && trim( $_POST['pesel'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać pesel!.', 'mydomain' ) );
+        }
+        if ( empty( $_POST['numer_dowodu'] ) || ! empty( $_POST['numer_dowodu'] ) && trim( $_POST['numer_dowodu'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać numer dowodu!.', 'mydomain' ) );
+        }
+        if ( empty( $_POST['adres'] ) || ! empty( $_POST['adres'] ) && trim( $_POST['adres'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać adres!.', 'mydomain' ) );
+        }
+        if ( empty( $_POST['kod_pocztowy'] ) || ! empty( $_POST['kod_pocztowy'] ) && trim( $_POST['kod_pocztowy'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać kod pocztowy!.', 'mydomain' ) );
+        }
+        if ( empty( $_POST['telefon'] ) || ! empty( $_POST['telefon'] ) && trim( $_POST['telefon'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać telefon!.', 'mydomain' ) );
+        }
+        if ( empty( $_POST['numer_konta'] ) || ! empty( $_POST['numer_konta'] ) && trim( $_POST['numer_konta'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać numer konta!.', 'mydomain' ) );
+        }
+        if ( empty( $_POST['nazwa_uczelni'] ) || ! empty( $_POST['nazwa_uczelni'] ) && trim( $_POST['nazwa_uczelni'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać nazwe uczelni!.', 'mydomain' ) );
+        }
+        if ( empty( $_POST['kierunek_studiow'] ) || ! empty( $_POST['kierunek_studiow'] ) && trim( $_POST['kierunek_studiow'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać kierunek studiow!.', 'mydomain' ) );
+        }
+        if ( empty( $_POST['rok_studiow'] ) || ! empty( $_POST['rok_studiow'] ) && trim( $_POST['rok_studiow'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać rok studiow!.', 'mydomain' ) );
+        }
+        if ( empty( $_POST['typ_uzytkownika'] ) || ! empty( $_POST['typ_uzytkownika'] ) && trim( $_POST['typ_uzytkownika'] ) == '' ){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz podać typ uzytkownika!.', 'mydomain' ) );
+        }
+        if ( ($_POST['typ_uzytkownika'] == 'praktykant') && (empty( $_POST['ilosc_godzin_wolontariatu'] ) || ! empty( $_POST['ilosc_godzin_wolontariatu'] ) && trim( $_POST['ilosc_godzin_wolontariatu'] ) == '' )){
+            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać ilosc godzin wolontariatu!.', 'mydomain' ) );
+        }
+         * 
+         */
         return $errors;
     }
     //ADD SANITIZE TEXT FIELD
@@ -74,12 +166,14 @@ function wolontariat_register_form() {
     add_action( 'user_register', 'wol_user_register' );
     function wol_user_register( $user_id ) {
         if ( ! empty( $_POST['imie'] ) ) {
+            sanitize_text_field($_POST['imie']);
             update_user_meta( $user_id, 'imie', trim( $_POST['imie'] ) );
-        }
-		
+        }	
         if ( ! empty( $_POST['nazwisko'] ) ) {
+            sanitize_text_field($_POST['nazwisko']);
             update_user_meta( $user_id, 'nazwisko', trim( $_POST['nazwisko'] ) );
         }
+        create_wolontariusz_post($user_id, $_POST);
     }
 /*user meta in admin */
 add_action( 'show_user_profile', 'display_wol_fields' );
@@ -92,15 +186,11 @@ function display_wol_fields( $user ) { ?>
             <th><label>Imie</label></th>
             <td><input type="text" value="<?php echo get_user_meta( $user->ID, 'imie', true ); ?>" class="regular-text" readonly=readonly /></td>
         </tr>
-		<tr>
+	<tr>
             <th><label>Nazwisko</label></th>
             <td><input type="text" value="<?php echo get_user_meta( $user->ID, 'nazwisko', true ); ?>" class="regular-text" readonly=readonly /></td>
         </tr>
-		<tr>
-            <th><label>Plec</label></th>
-            <td><input type="text" value="<?php echo get_user_meta( $user->ID, 'plec', true ); ?>" class="regular-text" readonly=readonly /></td>
-        </tr>
-		<tr>
+	<tr>
             <th><label>ID strony pracownika w systemie</label></th>
             <td><input type="text" value="<?php echo get_user_meta( $user->ID, 'wolontariusz_id', true ); ?>" class="regular-text" readonly=readonly /></td>
         </tr>
@@ -171,47 +261,43 @@ register_post_type(
     ,   'supports'            => array ( 'editor', 'title' )
     )
 );
-//Creates new custom post after user successfuly registers 
-function create_wolontariusz_post($user_id) {
-	$user = get_user_by('id', $user_id);
-	$post_id = -1;
-	$author_id = 1;
-	$imie = get_user_meta( $user_id, 'imie', true );
-	$nazwisko = get_user_meta( $user_id, 'nazwisko', true );
-	$tytul = $imie . ' ' . $nazwisko;
-        //Ratrrives a post with given title
-	if(get_page_by_title( $tytul ) == null) {
-		// Set the post ID so that we know the post was created successfully
-                try{
-                    $post_id = wp_insert_post(
-			array(
-				'comment_status'	=>	'closed',
-				'ping_status'		=>	'closed',
-				'post_author'		=>	$author_id,
-				'post_title'		=>	$tytul,
-				'post_content' 		=> 	'Utworzono: '. date('d.m.y G:i:s') .'-'. time(),
-				'post_status'		=>	'publish',
-				'post_type'		=>      'wolontariusz'
-			)
-                    );
-                    add_post_meta( $post_id, 'imie', $imie );
-                    add_post_meta( $post_id, 'nazwisko', $nazwisko );
-                    add_post_meta( $post_id, 'uzytkownik_id', $user->id);
-                } catch (Exception $ex) {
-                    //TODO Add exception behavior - unable to create post
-                    $post_id = -3;
-                    error_log( "Exception while creating new user with ID " .  $user->id);
-                }
-	} else {
-    		$post_id = -2;
-	}
-        //Wolontariusz_id is the id of post that was created when new user registered 
-	add_user_meta( $user_id, 'wolontariusz_id', $post_id );
+add_action( 'init', 'create_komunikat_taxonomies', 0 );
+
+//Creates Tags for komunikat post type in order to create a hierarchy
+function create_komunikat_taxonomies() 
+{
+  // Add new taxonomy, NOT hierarchical (like tags)
+  $labels = array(
+    'name' => _x( 'Priorytet', 'taxonomy general name' ),
+    'search_items' =>  __( 'Szukaj priorytetu' ),
+    'all_items' => __( 'Wszystkie priorytety' ),
+    'parent_item' => null,
+    'parent_item_colon' => null,
+    'edit_item' => __( 'Edytuj priorytet' ), 
+    'update_item' => __( 'Aktualizuj priorytet' ),
+    'add_new_item' => __( 'Dodaj priorytet' ),
+    'new_item_name' => __( 'Nazwa priorytetu' ),
+    'add_or_remove_items' => __( 'Dodaj lub usuń priorytet' ),
+    'choose_from_most_used' => __( 'Wybierz z najczesciej uzywanych' ),
+    'menu_name' => __( 'Priorytety' ),
+  ); 
+
+  register_taxonomy(
+          'priorytet',
+          'komunikat',
+          array(
+                'hierarchical' => false,
+                'labels' => $labels,
+                'show_ui' => true,
+                'update_count_callback' => '_update_post_term_count',
+                'query_var' => true,
+                'rewrite' => array( 'slug' => 'priorytet' ),
+          ));
+  register_taxonomy_for_object_type('wazne', 'komunikat');
 }
-add_action( 'user_register', 'create_wolontariusz_post', 100 );
 add_filter( 'registration_redirect', 'my_redirect_to_form' );
 function my_redirect_to_form( $registration_redirect ) {
-	return home_url('/formularz.php');
+	return home_url('wp-login.php');
 }
 /**
  * Redirect user after successful login.
