@@ -199,12 +199,56 @@ function display_wol_fields( $user ) { ?>
 }
 
 //Adds a new custom post to the Admin menu
+function custom_post_type_preferencja() {
+
+	$labels = array(
+		'name'                => 'Preferencja',
+		'singular_name'       => 'Preferencje',
+		'menu_name'           => 'Preferencje',
+		'parent_item_colon'   => 'Nadrzedna preferencja',
+		'all_items'           => 'Wszystkie preferencje',
+		'view_item'           => 'Pokaz preferencje',
+		'add_new_item'        => 'Dodaj nowa preferencjae',
+		'add_new'             => 'Nowa preferencja',
+		'edit_item'           => 'Edytuj preferencje',
+		'update_item'         => 'Zaktualizuj preferencje',
+		'search_items'        => 'Szukaj preferencji',
+		'not_found'           => 'Nie znaleziono',
+		'not_found_in_trash'  => 'Nie znaleziono w koszu',
+	);
+	$args = array(
+		'label'               => 'preferencja',
+		'description'         => 'Wszystkie preferencje dotyczace dni dziedzictwa',
+		'labels'              => $labels,
+		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', 'post-formats', ),
+		'taxonomies'          => array( 'category' ),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 5,
+		'menu_icon'           => 'dashicons-businessman',
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'capability_type'     => 'page',
+	);
+	register_post_type( 'preferencja', $args );
+
+}
+
+// Hook into the 'init' action
+add_action( 'init', 'custom_post_type_preferencja', 0 );	
+//Adds a new custom post to the Admin menu
 function custom_post_type_wolontariusz() {
 
 	$labels = array(
-		'name'                => 'Wolontariusz',
+		'name'                => 'Wolontariusze',
 		'singular_name'       => 'Wolontariusz',
-		'menu_name'           => 'Wolontariusz',
+		'menu_name'           => 'Wolontariusze',
 		'parent_item_colon'   => 'Nadrzedny wolontariusz:',
 		'all_items'           => 'Wszyscy wolontariusze',
 		'view_item'           => 'Pokaz wolontariusza',
@@ -241,7 +285,7 @@ function custom_post_type_wolontariusz() {
 }
 
 // Hook into the 'init' action
-add_action( 'init', 'custom_post_type_wolontariusz', 0 );	
+add_action( 'init', 'custom_post_type_wolontariusz', 0 );
 register_post_type(
     'komunikat',
         array (

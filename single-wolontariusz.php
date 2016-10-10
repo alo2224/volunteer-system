@@ -1,4 +1,5 @@
 <script>
+    /*
     window.onload = function(){
         var iloscGodzinForm = document.getElementById('ilosc_godzin_form');
         var praktykantRadioChecked = document.getElementById('praktykant').checked;
@@ -8,6 +9,51 @@
         console.log(praktykantRadioChecked);
         console.log(iloscGodzinForm);
     }
+    */
+    var allowInputEdit = function(event){
+        console.log(event);
+        var parentDiv = event.parentNode.parentNode;
+        console.log(parentDiv);
+        var inputElement = parentDiv.firstChild;
+        var cancel = false;
+        if(!inputElement.disabled){
+            cancel = true;
+        }
+        toogleEditButton(event, inputElement, cancel)
+    }
+    var allowRadioEdit = function(event){
+       var parentDiv = event.parentNode.parentNode;
+       var radioSpan = parentDiv.getElementsByTagName('input');
+       var cancel = false;
+       for(var i=0; i<radioSpan.length; i++ ){
+           if(!radioSpan[i].disabled){
+               cancel = true;
+           }
+           toogleEditButton(event, radioSpan[i], cancel);
+       }
+    }
+    var toogleEditButton = function (button, inputElement, cancel){
+        button.innerHTML = '';
+        var icon = document.createElement('i');
+        icon.className = 'glyphicon ';
+        if(cancel){
+            inputElement.disabled = true;
+            icon.className += 'glyphicon-pencil ';
+            var textElement = document.createTextNode('Edytuj ');
+            button.className = 'btn btn-warning'
+            button.appendChild(textElement);
+            button.appendChild(icon);
+        }
+        else if(!cancel){
+            inputElement.disabled = false;
+            icon.className += 'glyphicon-remove ';
+            var textElement = document.createTextNode('Anuluj ');
+            button.className = 'btn btn-danger'
+            button.appendChild(textElement);
+            button.appendChild(icon);
+        }
+    }
+    
 </script>
 <?php //acf_form_head(); ?>
 <?php get_header(); ?>
@@ -173,16 +219,20 @@
                                 elseif($value['value'] == 'wolontariusz'){
                                     $wolontariusz = true;
                                 }
-                                echo "<div class='form-group'><label for='wolontariusz'>Typ uzytkownika</label><div class='radio'><label class='radio-inline'><input type='radio' name={$value['name']} id='typ_uzytkownika' value='wolontariusz' " .($wolontariusz == true ? "checked" : '') . ">Wolontariusz</label><label class='radio-inline'><input type='radio' name={$value['name']} id='typ_uzytkownika' value='praktykant'" . ($praktykant == true ? "checked" : '') . ">Praktykant</label></div>";
+                                echo "<div class='form-group'><label for='wolontariusz'>Typ uzytkownika</label><div class='input-group'><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='wolontariusz' " .($wolontariusz == true ? "checked" : '') . ">Wolontariusz</label><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='praktykant'" . ($praktykant == true ? "checked" : '') . ">Praktykant</label><span class='input-group-btn'><button onclick='allowRadioEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div>";
                                   
                             }
                         }
                         else{
-                            echo "<div class='form-group'><label for= {$value['name']}> {$value['label']} </label><input name={$value['name']} type= {$value['type']} class=form-control id= {$value['name']}  value= $input_value placeholder= {$value['label']}></div>";
+                            echo "<div class='form-group'><label for= {$value['name']}> {$value['label']} </label><div class='input-group'><input name={$value['name']} type= {$value['type']} class=form-control id= {$value['name']}  value= $input_value placeholder= {$value['label']} disabled><span class='input-group-btn'><button onclick='allowInputEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div></div>";
                         }
                          
                     }
                      ?>
+                       <div>
+                        <button type="submit" name="submit" class="btn btn-default">Submit</button>
+                        </div>  
+                     </form>
                  </div>
                    
         </div>

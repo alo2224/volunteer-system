@@ -30,8 +30,8 @@ Template name: kalendarz
                 <div class="row">
                      <div class="col-md-6 col-md-offset-3">
 
-                        <?php the_content();  ?>
-
+                        <?php the_content(); var_dump(get_post_meta(get_the_ID())); ?>
+                         
                         <?php endwhile; ?>
                         <?php else:  ?>
 
