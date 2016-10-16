@@ -9,15 +9,15 @@ Template name: dni-dziedzictwa
 ?>
 <script>
     window.onload = function(){
-        var radioButtonTak = document.getElementById('para_tak');
-        var radioButtonNie = document.getElementById('para_nie');
-        var daneInputForm = document.getElementById('dane_pary_form');
+        var radioButtonTak = document.getElementById('tak');
+        var radioButtonNie = document.getElementById('nie');
+        var daneInputForm = document.getElementById('liczba_udzialow_form');
         radioButtonTak.onclick = function(){
             daneInputForm.style.display = "block";
         };
         radioButtonNie.onclick = function(){
             daneInputForm.style.display = "none";
-            var daneInputField = document.getElementById('dane_pary');
+            var daneInputField = document.getElementById('liczba_udzialow');
             daneInputField.value='';
         }
     };
@@ -32,17 +32,16 @@ if(!is_user_logged_in()){
         //TODO Add loging page redirect
 }
 var_dump(get_post(get_the_ID()));
+$user_id = get_current_user_id();
 if(isset($_POST['submit'])){
     $fields = array();
     $fields = array_map('sanitize_text_field', $_POST);
     var_dump($fields);
-   // var_dump(get_the_ID());
-    /*
-    foreach($fields as $key => $val){
-        update_field($key,$val);
-    }
-     * 
-     */
+    $pref_id = create_preferencja_post($user_id, $fields);
+    $wolontariusz_id = get_user_meta($user_id, 'wolontariusz_id', true);
+    $preferencja_field = 'field_57fd46a4ff0d9';
+    update_field($preferencja_field, $pref_id, $wolontariusz_id);
+    echo $pref_id;
 }
 ?>
 <div id="main" class="site-main container-fluid">
@@ -68,10 +67,10 @@ if(isset($_POST['submit'])){
                                 </p>
                                 <div class="form-group">
                                     <label class="radio-inline">
-                                        <input type="radio" name="pref_weekend" id="pierwszy" value="pierwszy" <?php //if($wolontariusz){ echo 'checked';}?>> Pierwszy
+                                        <input type="radio" name="pref_weekend" id="pierwszy" value="pierwszy" > Pierwszy
                                     </label> 
                                     <label class="radio-inline">
-                                        <input type="radio" name="pref_weekend" id="drugi" value="drugi" <?php //if($praktykant){ echo 'checked';}?> > Drugi
+                                        <input type="radio" name="pref_weekend" id="drugi" value="drugi" > Drugi
                                     </label>
                                 </div>
                             </div>
@@ -81,28 +80,21 @@ if(isset($_POST['submit'])){
                                 </p>
                                 <div class="form-group">
                                     <label class="radio-inline">
-                                        <input type="radio" name="czy_uczestniczyl" id="tak" value="tak" <?php //if($wolontariusz){ echo 'checked';}?>> Tak
+                                        <input type="radio" name="czy_uczestniczyl" id="tak" value="tak" > Tak
                                     </label> 
                                     <label class="radio-inline">
-                                        <input type="radio" name="czy_uczestniczyl" id="nie" value="nie" <?php //if($praktykant){ echo 'checked';}?> > Nie
+                                        <input type="radio" name="czy_uczestniczyl" id="nie" value="nie" > Nie
                                     </label>
+                                </div>
+                                <div hidden class="form-group" id="liczba_udzialow_form">
+                                    <label>Ilosc udzialow</label>
+                                    <input class="form-control" name="liczba_udzialow" id="liczba_udzialow" value="">
                                 </div>
                             </div>
                             <div>
-                                <p>
-                                    Czy chcesz wskazać osobę z którą chciałbyś współpracować?
-                                </p>
-                                <div class="form-group">
-                                    <label class="radio-inline">
-                                        <input type="radio" name="para" id="para_tak" value="tak" <?php //if($wolontariusz){ echo 'checked';}?>> Tak
-                                    </label> 
-                                    <label class="radio-inline">
-                                        <input type="radio" name="para" id="para_nie" value="nie" <?php //if($praktykant){ echo 'checked';}?> > Nie
-                                    </label>
-                                </div>
-                                <div hidden class="form-group" id="dane_pary_form">
-                                    <label>Podaj imię i nazwisko tej osoby</label>
-                                    <input class="form-control" name="dane_pary" id="dane_pary" value="">
+                                <div class="form-group" id="uwagi">
+                                    <label>Dodatkowe uwagi (np. osoba do pary / preferowane miejsce wolontariatu)</label>
+                                    <input class="form-control" name="uwagi" id="uwagi" value="">
                                 </div>
                                     <p>
                                         <button type="submit" name="submit" class="btn btn-default">Submit</button>

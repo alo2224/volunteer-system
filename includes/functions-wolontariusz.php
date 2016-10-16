@@ -97,7 +97,7 @@ function update_wolontariusz_data($wolontariusz_id, $data){
         }
 }
 function create_wolontariusz_post($user_id, $data){
-    array_map('sanitize_text_field', $data);
+        array_map('sanitize_text_field', $data);
 	$tytul = $data['imie'] . ' ' . $data['nazwisko'];
         //Ratrrives a post with given title
 	if(get_page_by_title( $tytul ) == null) {
@@ -145,7 +145,6 @@ function create_wolontariusz_post($user_id, $data){
                     update_field( $fields_ACF['typ_uzytkownika'], $data['typ_uzytkownika'] ,$post_id );
                     update_field( $fields_ACF['ilosc_godzin_wolontariatu'], $data['ilosc_godzin_wolontariatu'] ,$post_id );
                     update_field( $fields_ACF['uzytkownik_id'], $user_id ,$post_id);
-                    acf_form_head();
                 } catch (Exception $ex) {
                     //TODO Add exception behavior - unable to create post
                     $post_id = -3;
@@ -156,4 +155,45 @@ function create_wolontariusz_post($user_id, $data){
 	}
         //Wolontariusz_id is the id of post that was created when new user registered 
 	add_user_meta( $user_id, 'wolontariusz_id', $post_id );
+        return $post_id;
+}
+function create_preferencja_post($user_id, $data){
+$imie = get_user_meta($user_id,'imie',true);
+$nazwisko = get_user_meta($user_id,'nazwisko',true);
+$tytul = $imie . ' ' . $nazwisko;
+//Ratrrives a post with given title
+if(get_page_by_title( $tytul ) == null) {
+        // Set the post ID so that we know the post was created successfully
+        try{
+            $post_id = wp_insert_post(
+                array(
+                        'comment_status'	=>	'closed',
+                        'ping_status'		=>	'closed',
+                        'post_title'		=>	$tytul,
+                        'post_content' 		=> 	'Utworzono: '. date('d.m.y G:i:s') .'-'. time(),
+                        'post_status'		=>	'publish',
+                        'post_type'		=>      'preferencja'
+                )
+            );
+            //update_post_meta( $post_id, 'imie', $imie );
+            //Unfortunatly the data update has to be done using the field keys here is a map of them
+            $fields_ACF = array(
+                'pref_weekend' => 'field_57fd3c8f50062',
+                'czy_uczestniczyl' => 'field_57fd3cbc50063',
+                'liczba_udzialow' => 'field_57fd3cea50064',
+                'uwagi' => 'field_57fd3da250065'
+            );
+            update_field( $fields_ACF['pref_weekend'], $data['pref_weekend'] , $post_id);
+            update_field( $fields_ACF['czy_uczestniczyl'], $data['czy_uczestniczyl'], $post_id );
+            update_field( $fields_ACF['liczba_udzialow'], $data['liczba_udzialow'], $post_id );
+            update_field( $fields_ACF['uwagi'], $data['uwagi'] , $post_id);
+        } catch (Exception $ex) {
+            //TODO Add exception behavior - unable to create post
+            $post_id = -3;
+            error_log( "Exception while creating new user with ID " .  $user->id);
+        }
+} else {
+        $post_id = -2;
+}
+return $post_id;
 }

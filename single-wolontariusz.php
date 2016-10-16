@@ -204,24 +204,27 @@
                      <?php 
                      foreach ($data_objects as $key => $value){
                          //var_dump($key);
-                        //var_dump($value);
+                         var_dump($value);
                          if(empty($value['value'])){
                              $input_value = '""';
                          }
                         else{
                             $input_value = $value['value'];     
                         }
-                        if($value['type'] == 'radio'){
-                            if($value['name'] == 'typ_uzytkownika'){
-                                if($value['value'] == 'praktykant'){
-                                    $praktykant = true;
-                                }
-                                elseif($value['value'] == 'wolontariusz'){
-                                    $wolontariusz = true;
-                                }
-                                echo "<div class='form-group'><label for='wolontariusz'>Typ uzytkownika</label><div class='input-group'><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='wolontariusz' " .($wolontariusz == true ? "checked" : '') . ">Wolontariusz</label><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='praktykant'" . ($praktykant == true ? "checked" : '') . ">Praktykant</label><span class='input-group-btn'><button onclick='allowRadioEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div>";
-                                  
+                        if($value['name'] == 'typ_uzytkownika'){
+                            if($value['value'] == 'praktykant'){
+                                $praktykant = true;
                             }
+                            elseif($value['value'] == 'wolontariusz'){
+                                $wolontariusz = true;
+                            }
+                            echo "<div class='form-group'><label for='wolontariusz'>Typ uzytkownika</label><div class='input-group'><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='wolontariusz' " .($wolontariusz == true ? "checked" : '') . ">Wolontariusz</label><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='praktykant'" . ($praktykant == true ? "checked" : '') . ">Praktykant</label><span class='input-group-btn'><button onclick='allowRadioEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div>";
+
+                        }
+                        elseif ($value['name'] == 'preferencja') {
+                            $preferencja_id = $value['value']->ID;
+                            $preferencja_post_object = get_field_objects($preferencja_id);
+                            var_dump($preferencja_post_object);
                         }
                         else{
                             echo "<div class='form-group'><label for= {$value['name']}> {$value['label']} </label><div class='input-group'><input name={$value['name']} type= {$value['type']} class=form-control id= {$value['name']}  value= $input_value placeholder= {$value['label']} disabled><span class='input-group-btn'><button onclick='allowInputEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div></div>";
