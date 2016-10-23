@@ -305,6 +305,25 @@ register_post_type(
     ,   'supports'            => array ( 'editor', 'title' )
     )
 );
+register_post_type(
+    'Uczestnicy',
+        array (
+        'can_export'          => TRUE
+    ,   'exclude_from_search' => FALSE
+    ,   'has_archive'         => TRUE
+    ,   'hierarchical'        => TRUE
+    ,   'label'               => 'Uczestnicy'
+    ,   'menu_position'       => 5
+    ,   'public'              => TRUE
+    ,   'publicly_queryable'  => TRUE
+    ,   'query_var'           => 'uczestnicy'
+    ,   'rewrite'             => array ( 'slug' => 'uczestnicy' )
+    ,   'show_ui'             => TRUE
+    ,   'show_in_menu'        => TRUE
+    ,   'show_in_nav_menus'   => TRUE
+    ,   'supports'            => array ( 'editor', 'title' )
+    )
+);
 add_action( 'init', 'create_komunikat_taxonomies', 0 );
 
 //Creates Tags for komunikat post type in order to create a hierarchy

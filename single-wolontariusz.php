@@ -116,7 +116,7 @@
                 $current_post_id = get_the_ID();
                 //echo $current_post_id;
                 $data = get_fields();
-               // var_dump($data);
+                var_dump($data);
                 $data_objects = get_field_objects($current_post_id);
             //    var_dump($data_objects);
             //    var_dump($data);
@@ -204,8 +204,8 @@
                      <?php 
                      foreach ($data_objects as $key => $value){
                          //var_dump($key);
-                         var_dump($value);
-                         if(empty($value['value'])){
+                         //var_dump($value);
+                        if(empty($value['value'])){
                              $input_value = '""';
                          }
                         else{
@@ -218,18 +218,36 @@
                             elseif($value['value'] == 'wolontariusz'){
                                 $wolontariusz = true;
                             }
-                            echo "<div class='form-group'><label for='wolontariusz'>Typ uzytkownika</label><div class='input-group'><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='wolontariusz' " .($wolontariusz == true ? "checked" : '') . ">Wolontariusz</label><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='praktykant'" . ($praktykant == true ? "checked" : '') . ">Praktykant</label><span class='input-group-btn'><button onclick='allowRadioEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div>";
-
+                            //echo "<div class='form-group'><label>Typ uzytkownika</label><div class='input-group'><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='wolontariusz' " .($wolontariusz == true ? "checked" : '') . ">Wolontariusz</label><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='praktykant'" . ($praktykant == true ? "checked" : '') . ">Praktykant</label><span class='input-group-btn'><button onclick='allowRadioEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div>";
+                            echo display_ACF_radio_group($value);
                         }
                         elseif ($value['name'] == 'preferencja') {
-                            $preferencja_id = $value['value']->ID;
-                            $preferencja_post_object = get_field_objects($preferencja_id);
-                            var_dump($preferencja_post_object);
+                            if($value['value'] == NULL){
+                                echo "<hr><div class='form-group'><label style='color:red'>Preferencja nie wypełniona</label></div>";
+                            }
+                            else{
+                                echo "<hr><div class='form-group'><label style='color:green'>Preferencja dni dziedzictwa</label></div>";
+                                $preferencja_id = $value['value']->ID;
+                                $preferencja_post_object = get_field_objects($preferencja_id);
+                                foreach ($preferencja_post_object as $key1 => $value1){
+                                    if(empty($value1['value'])){
+                                        $input_value = '""';
+                                    }
+                                    else{
+                                       $input_value = $value1['value'];     
+                                    }
+                                    if($value1['type'] == 'radio'){
+                                        echo display_ACF_radio_group($value1);
+                                    }
+                                    else{
+                                        echo display_ACF_input_group($value1, $input_value);
+                                    }
+                                }
+                            }
                         }
                         else{
-                            echo "<div class='form-group'><label for= {$value['name']}> {$value['label']} </label><div class='input-group'><input name={$value['name']} type= {$value['type']} class=form-control id= {$value['name']}  value= $input_value placeholder= {$value['label']} disabled><span class='input-group-btn'><button onclick='allowInputEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div></div>";
-                        }
-                         
+                            echo display_ACF_input_group($value, $input_value);
+                        }     
                     }
                      ?>
                        <div>

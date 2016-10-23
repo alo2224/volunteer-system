@@ -12,6 +12,20 @@ if ( ! isset( $content_width ) ) $content_width = 900;
 if ( is_singular() ) wp_enqueue_script( "comment-reply" );
 wp_head();
 ?>  
+<script>
+window.onload = function(){
+    var sidebarElement = document.getElementById("sidebar");
+    var linkElements = sidebarElement.getElementsByTagName('a');
+    var currentPage = window.location.href;
+    currentPage = currentPage.substr(0,currentPage.length - 1);
+    for(var i=0;i<linkElements.length;i++){
+        if(linkElements[i].href === currentPage){
+            var parentElement = linkElements[i].parentNode;
+            parentElement.className += 'active ';
+        }
+    }
+}
+</script>
 </head>
 <body <?php body_class();?>>
 <div class="panel panel-primary">

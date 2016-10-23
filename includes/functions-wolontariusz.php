@@ -197,3 +197,33 @@ if(get_page_by_title( $tytul ) == null) {
 }
 return $post_id;
 }
+function display_ACF_input_group($data, $input_data){
+    $HTML_data = "<div class='form-group'><label for= '{$data['name']}'> {$data['label']} </label><div class='input-group'><input name={$data['name']} type= {$data['type']} class=form-control id= '{$data['name']}' value='{$input_data}' placeholder= '{$data['label']}' disabled><span class='input-group-btn'><button onclick='allowInputEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div></div>";
+    return $HTML_data;
+}
+function display_ACF_radio_group($data){
+    $HTML_data = "<div class='form-group'><label>{$data['label']}</label><div class='input-group'>";
+    //var_dump($data);
+    $radio_choices = $data['choices'];
+    foreach($radio_choices as $value){
+        $checked = false;
+        if($value == $data['value']){
+            $checked = true;
+        }
+        $HTML_data .= "<label class='radio-inline'><input disabled type='radio' name='{$data['name']}' id='{$data['name']}' value='{$value}' " .($checked == true ? "checked" : '') . ">{$value}</label>";
+    }
+    $HTML_data .= "<span class='input-group-btn'><button onclick='allowRadioEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div>";
+    return $HTML_data;
+}
+function add_attendee_to_event($volunteer_id, $hours, $event_id ){
+    $current_data = get_post_meta($event_id, 'uczestnicy', true);
+    if(empty($current_data[$volunteer_id])){
+        $current_data[$volunteer_id] = $hours;
+         update_post_meta($event_id, 'uczestnicy', $current_data);
+    }
+    else{
+        echo 'Jestes juz zapisany na to wydarzenie!!';
+        return -1;
+    }
+    return 0;
+}
