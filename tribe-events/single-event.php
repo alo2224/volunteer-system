@@ -19,7 +19,13 @@
  * @version  4.3
  *
  */
-
+if(!is_user_logged_in()){
+        //echo "Please log in";
+        header("HTTP/1.1 302 Moved Temporary");
+        header("Location: http://localhost/wordpress/wp-login");
+        exit();
+        //TODO Add loging page redirect
+}
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -29,40 +35,7 @@ $events_label_plural = tribe_get_event_label_plural();
 
 $event_id = get_the_ID();
 $event_fields = get_fields();
-//var_dump($event_fields);
 $post_meta = get_post_meta($event_id);
-var_dump($post_meta);
-$zapisani = get_field('zapisani_wolontariusze');
-var_dump($zapisani);
-//var_dump($event_id);
-//the_title();
-/*
-$created_post_id = tribe_create_event(
-        array(
-                        'post_title'		=>	'TEST',
-                        'post_content' 		=> 	'Utworzono: '. date('d.m.y G:i:s') .'-'. time(),
-                        'post_status'		=>	'publish',
-                        'EventStartDate'        =>      '2016-10-24 08:00:00',
-                        'EventEndData'          =>      '2016-10-24 17:00:00',
-                        'EventStartHour'        =>      '8',
-                        'EventStartMinute'        =>    '60',
-                        'EventStartMeridian'        =>  'am',
-                        'EventEndHour'        =>      '17',
-                        'EventEndMinute'        =>      '60',
-                        'EventEndMeridian'        =>      'pm',
-                        'EventShowMapLink'        =>      TRUE,
-                )
-        ); 
-var_dump($created_post_id);
-update_post_meta($created_post_id, '_EventStartDate', '2016-10-24 10:00:00' );
-update_post_meta($created_post_id, '_EventStartDateUTC', '2016-10-24 08:00:00' );
-update_post_meta($created_post_id, '_EventEndDate', '2016-10-24 19:00:00');  
-update_post_meta($created_post_id, '_EventEndDateUTC', '2016-10-24 17:00:00'); 
-update_post_meta($created_post_id, '_EventTimezone', 'UTC+1'); 
-update_post_meta($created_post_id,
-var_dump(get_post_meta($created_post_id));
-*/
-//update_post_meta($event_id, 'uczestnicy', '');
 $wolontariusz_id = get_user_meta(get_current_user_id(), 'wolontariusz_id', true);
 if(isset($_POST['submit'])){
        try{

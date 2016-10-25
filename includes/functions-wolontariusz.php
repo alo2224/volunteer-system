@@ -5,20 +5,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-function get_wolontariusz_data($user_id){
-    $user = get_user_by('id', $user_id);
-    $wolontariusz_id = $user->wolontariusz_id;
-    $data = array();
-    $data['imie'] = get_user_meta($user_id,'imie',true);
-    $data['nazwisko'] = get_user_meta($user_id,'nazwisko',true);
-    $data['wolontariusz_id'] = $wolontariusz_id;
-    return $data;
-}
-function get_wolontariusz_id($user_id){
-    $user = get_user_by('id', $user_id);
-    $wolontariusz_id = $user->wolontariusz_id;
-    return $wolontariusz_id;
-}
 function update_wolontariusz_data($wolontariusz_id, $data){
     //Not doing a loop to aviod POST attack where POST with random stuff is being send
         $fields_ACF = array(
@@ -113,7 +99,6 @@ function create_wolontariusz_post($user_id, $data){
 				'post_type'		=>      'wolontariusz'
 			)
                     );
-                    //update_post_meta( $post_id, 'imie', $imie );
                     //Unfortunatly the data update has to be done using the field keys here is a map of them
                     $fields_ACF = array(
                         'imie' => 'field_57adb7f8d4faa',
@@ -175,7 +160,6 @@ if(get_page_by_title( $tytul ) == null) {
                         'post_type'		=>      'preferencja'
                 )
             );
-            //update_post_meta( $post_id, 'imie', $imie );
             //Unfortunatly the data update has to be done using the field keys here is a map of them
             $fields_ACF = array(
                 'pref_weekend' => 'field_57fd3c8f50062',
@@ -197,10 +181,12 @@ if(get_page_by_title( $tytul ) == null) {
 }
 return $post_id;
 }
+//Used in user data displaying - defines input template
 function display_ACF_input_group($data, $input_data){
     $HTML_data = "<div class='form-group'><label for= '{$data['name']}'> {$data['label']} </label><div class='input-group'><input name={$data['name']} type= {$data['type']} class=form-control id= '{$data['name']}' value='{$input_data}' placeholder= '{$data['label']}' disabled><span class='input-group-btn'><button onclick='allowInputEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div></div>";
     return $HTML_data;
 }
+//Used in user data displaying - defines input template
 function display_ACF_radio_group($data){
     $HTML_data = "<div class='form-group'><label>{$data['label']}</label><div class='input-group'>";
     //var_dump($data);
@@ -215,6 +201,7 @@ function display_ACF_radio_group($data){
     $HTML_data .= "<span class='input-group-btn'><button onclick='allowRadioEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div>";
     return $HTML_data;
 }
+//Adds attendee to an event by updating event post meta
 function add_attendee_to_event($volunteer_id, $hours, $event_id ){
     $current_data = get_post_meta($event_id, 'uczestnicy', true);
     if(empty($current_data[$volunteer_id])){
@@ -222,8 +209,35 @@ function add_attendee_to_event($volunteer_id, $hours, $event_id ){
          update_post_meta($event_id, 'uczestnicy', $current_data);
     }
     else{
-        echo 'Jestes juz zapisany na to wydarzenie!!';
         return -1;
     }
     return 0;
 }
+//Function for creating event from front end - need additional development
+/*
+function create_event_post(){
+$created_post_id = tribe_create_event(
+        array(
+                        'post_title'		=>	'TEST',
+                        'post_content' 		=> 	'Utworzono: '. date('d.m.y G:i:s') .'-'. time(),
+                        'post_status'		=>	'publish',
+                        'EventStartDate'        =>      '2016-10-24 08:00:00',
+                        'EventEndData'          =>      '2016-10-24 17:00:00',
+                        'EventStartHour'        =>      '8',
+                        'EventStartMinute'        =>    '60',
+                        'EventStartMeridian'        =>  'am',
+                        'EventEndHour'        =>      '17',
+                        'EventEndMinute'        =>      '60',
+                        'EventEndMeridian'        =>      'pm',
+                        'EventShowMapLink'        =>      TRUE,
+                )
+        ); 
+var_dump($created_post_id);
+update_post_meta($created_post_id, '_EventStartDate', '2016-10-24 10:00:00' );
+update_post_meta($created_post_id, '_EventStartDateUTC', '2016-10-24 08:00:00' );
+update_post_meta($created_post_id, '_EventEndDate', '2016-10-24 19:00:00');  
+update_post_meta($created_post_id, '_EventEndDateUTC', '2016-10-24 17:00:00'); 
+update_post_meta($created_post_id, '_EventTimezone', 'UTC+1'); 
+update_post_meta($created_post_id,
+var_dump(get_post_meta($created_post_id));
+*/

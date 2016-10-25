@@ -14,7 +14,7 @@ do_action( 'tribe_events_single_meta_before' );
 $event_id = get_the_ID();
 //$event_meta = get_post_meta($event_id);
 $event_attendees = get_post_meta($event_id, 'uczestnicy', true);
-var_dump($event_attendees);
+//var_dump($event_attendees);
 // Check for skeleton mode (no outer wrappers per section)
 $not_skeleton = ! apply_filters( 'tribe_events_single_event_the_meta_skeleton', false, get_the_ID() );
 

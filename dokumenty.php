@@ -28,7 +28,6 @@ $posts = get_posts(array(
 if( $posts ): ?>	
 	<ul>		
 	<?php foreach( $posts as $post ): 
-                //var_dump($post);
                 //Documents that were created via media library and are not assigned to any post 
                 if($post->post_parent == 0):
 		$id = get_the_ID();

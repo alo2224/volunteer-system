@@ -37,11 +37,8 @@ function wolontariat_register_form() {
                 }
                 wolontariuszRadioButton.onclick = function(){
                     iloscGodzinForm.style.display = 'none';
-                    console.log(iloscGodzinForm);
                     iloscGodzinWolontariatuInput.value = '';
                 }
-                console.log(iloscGodzinForm);
-                console.log(wolontariuszRadioButton);
             }
         </script>
         <p>
@@ -117,51 +114,62 @@ function wolontariat_register_form() {
     //2. Add empty string validation errors. 
     add_filter( 'registration_errors', 'wol_registration_errors', 10, 3 );
     function wol_registration_errors( $errors, $sanitized_user_login, $user_email ) {
-        /*
         if ( empty( $_POST['imie'] ) || ! empty( $_POST['imie'] ) && trim( $_POST['imie'] ) == '' ) {
             $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać imie!.', 'mydomain' ) );
         }
 	if ( empty( $_POST['nazwisko'] ) || ! empty( $_POST['nazwisko'] ) && trim( $_POST['nazwisko'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać nazwisko!.', 'mydomain' ) );
+            $errors->add( 'nazwisko_error', __( '<strong>Blad!</strong>: Musisz wpisać nazwisko!.', 'mydomain' ) );
         }
         if ( empty( $_POST['pesel'] ) || ! empty( $_POST['pesel'] ) && trim( $_POST['pesel'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać pesel!.', 'mydomain' ) );
+            $errors->add( 'pesel_error', __( '<strong>Blad!</strong>: Musisz wpisać pesel!.', 'mydomain' ) );
+        }
+        elseif (strlen($_POST['pesel']) != 11 && !is_numeric($_POST['pesel'])) {
+            $errors->add( 'pesel_error', __( '<strong>Blad!</strong>: Podaj prawidłowy pesel!.', 'mydomain' ) );
         }
         if ( empty( $_POST['numer_dowodu'] ) || ! empty( $_POST['numer_dowodu'] ) && trim( $_POST['numer_dowodu'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać numer dowodu!.', 'mydomain' ) );
+            $errors->add( 'numer_dowodu_error', __( '<strong>Blad!</strong>: Musisz wpisać numer dowodu!.', 'mydomain' ) );
+        }
+        elseif(strlen($_POST['numer_dowodu']) != 9 || strlen($_POST['numer_dowodu']) != 10){
+             $errors->add( 'numer_dowodu_error', __( '<strong>Blad!</strong>: Wpisz poprawny numer dowodu!.', 'mydomain' ) );
         }
         if ( empty( $_POST['adres'] ) || ! empty( $_POST['adres'] ) && trim( $_POST['adres'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać adres!.', 'mydomain' ) );
+            $errors->add( 'adres_error', __( '<strong>Blad!</strong>: Musisz wpisać adres!.', 'mydomain' ) );
         }
         if ( empty( $_POST['kod_pocztowy'] ) || ! empty( $_POST['kod_pocztowy'] ) && trim( $_POST['kod_pocztowy'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać kod pocztowy!.', 'mydomain' ) );
+            $errors->add( 'kod_pocztowy_error', __( '<strong>Blad!</strong>: Musisz wpisać kod pocztowy!.', 'mydomain' ) );
+        }
+        elseif(strlen($_POST['kod_pocztowy']) != 6){
+            $errors->add( 'kod_pocztowy_error', __( '<strong>Blad!</strong>:Wpisz poprawny kod pocztowy!.', 'mydomain' ) );
         }
         if ( empty( $_POST['telefon'] ) || ! empty( $_POST['telefon'] ) && trim( $_POST['telefon'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać telefon!.', 'mydomain' ) );
+            $errors->add( 'telefon_error', __( '<strong>Blad!</strong>: Musisz wpisać telefon!.', 'mydomain' ) );
         }
         if ( empty( $_POST['numer_konta'] ) || ! empty( $_POST['numer_konta'] ) && trim( $_POST['numer_konta'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać numer konta!.', 'mydomain' ) );
+            $errors->add( 'numer_konta_error', __( '<strong>Blad!</strong>: Musisz wpisać numer konta!.', 'mydomain' ) );
+        }
+        elseif(strlen($_POST['numer_konta']) != 26 && !is_numeric($_POST['numer_konta'])){
+            $errors->add( 'numer_konta_error', __( '<strong>Blad!</strong>: Wpisz poprawny numer konta', 'mydomain' ) );
         }
         if ( empty( $_POST['nazwa_uczelni'] ) || ! empty( $_POST['nazwa_uczelni'] ) && trim( $_POST['nazwa_uczelni'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać nazwe uczelni!.', 'mydomain' ) );
+            $errors->add( 'nazwa_uczelni_error', __( '<strong>Blad!</strong>: Musisz wpisać nazwe uczelni!.', 'mydomain' ) );
         }
         if ( empty( $_POST['kierunek_studiow'] ) || ! empty( $_POST['kierunek_studiow'] ) && trim( $_POST['kierunek_studiow'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać kierunek studiow!.', 'mydomain' ) );
+            $errors->add( 'kierunek_studiow_error', __( '<strong>Blad!</strong>: Musisz wpisać kierunek studiow!.', 'mydomain' ) );
         }
         if ( empty( $_POST['rok_studiow'] ) || ! empty( $_POST['rok_studiow'] ) && trim( $_POST['rok_studiow'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać rok studiow!.', 'mydomain' ) );
+            $errors->add( 'rok_studiow_error', __( '<strong>Blad!</strong>: Musisz wpisać rok studiow!.', 'mydomain' ) );
+        }
+        elseif(!is_numeric($_POST['rok_studiow'])){
+            $errors->add( 'rok_studiow_error', __( '<strong>Blad!</strong>: Podaj poprawny rok studiow!.', 'mydomain' ) );
         }
         if ( empty( $_POST['typ_uzytkownika'] ) || ! empty( $_POST['typ_uzytkownika'] ) && trim( $_POST['typ_uzytkownika'] ) == '' ){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz podać typ uzytkownika!.', 'mydomain' ) );
+            $errors->add( 'typ_uzytkownika_error', __( '<strong>Blad!</strong>: Musisz podać typ uzytkownika!.', 'mydomain' ) );
         }
         if ( ($_POST['typ_uzytkownika'] == 'praktykant') && (empty( $_POST['ilosc_godzin_wolontariatu'] ) || ! empty( $_POST['ilosc_godzin_wolontariatu'] ) && trim( $_POST['ilosc_godzin_wolontariatu'] ) == '' )){
-            $errors->add( 'imie_error', __( '<strong>Blad!</strong>: Musisz wpisać ilosc godzin wolontariatu!.', 'mydomain' ) );
+            $errors->add( 'ilosc_godzin_wolontariatu_error', __( '<strong>Blad!</strong>: Musisz wpisać ilosc godzin wolontariatu!.', 'mydomain' ) );
         }
-         * 
-         */
         return $errors;
     }
-    //ADD SANITIZE TEXT FIELD
     //3. Finally, save our extra registration user meta.
     add_action( 'user_register', 'wol_user_register' );
     function wol_user_register( $user_id ) {
@@ -191,7 +199,7 @@ function display_wol_fields( $user ) { ?>
             <td><input type="text" value="<?php echo get_user_meta( $user->ID, 'nazwisko', true ); ?>" class="regular-text" readonly=readonly /></td>
         </tr>
 	<tr>
-            <th><label>ID strony pracownika w systemie</label></th>
+            <th><label>ID wolontariusza</label></th>
             <td><input type="text" value="<?php echo get_user_meta( $user->ID, 'wolontariusz_id', true ); ?>" class="regular-text" readonly=readonly /></td>
         </tr>
     </table>
@@ -305,25 +313,6 @@ register_post_type(
     ,   'supports'            => array ( 'editor', 'title' )
     )
 );
-register_post_type(
-    'Uczestnicy',
-        array (
-        'can_export'          => TRUE
-    ,   'exclude_from_search' => FALSE
-    ,   'has_archive'         => TRUE
-    ,   'hierarchical'        => TRUE
-    ,   'label'               => 'Uczestnicy'
-    ,   'menu_position'       => 5
-    ,   'public'              => TRUE
-    ,   'publicly_queryable'  => TRUE
-    ,   'query_var'           => 'uczestnicy'
-    ,   'rewrite'             => array ( 'slug' => 'uczestnicy' )
-    ,   'show_ui'             => TRUE
-    ,   'show_in_menu'        => TRUE
-    ,   'show_in_nav_menus'   => TRUE
-    ,   'supports'            => array ( 'editor', 'title' )
-    )
-);
 add_action( 'init', 'create_komunikat_taxonomies', 0 );
 
 //Creates Tags for komunikat post type in order to create a hierarchy
@@ -344,7 +333,7 @@ function create_komunikat_taxonomies()
     'choose_from_most_used' => __( 'Wybierz z najczesciej uzywanych' ),
     'menu_name' => __( 'Priorytety' ),
   ); 
-
+//used for priretization of alerts
   register_taxonomy(
           'priorytet',
           'komunikat',
@@ -387,22 +376,97 @@ function my_login_redirect( $redirect_to, $request, $user ) {
 }
 
 add_filter( 'login_redirect', 'my_login_redirect', 10, 3 );
-
+//defines the template for pdf creation
 add_filter('bwsplgns_get_pdf_print_content', 
     function( $content ) {
         $current_post_id = get_the_ID();
-       
         $current_post_type = get_post_type($current_post_id);
         $my_content = '';
         if($current_post_type == 'wolontariusz'){
-            $dane = get_fields($current_post_id);
-            foreach($dane as $key => $value){
-                $my_content .= $key;
-                $my_content .= "<br />";
-                $my_content .= $value;
-                $my_content .= "<br />";
+            $dane_wolontariusza = get_fields($current_post_id);
+            $dane_uzytkownika = get_userdata($dane_wolontariusza['uzytkownik_id']);
+            $preferencja_dni_dziedzictwa = get_fields($dane_wolontariusza['preferencja']->ID);
+            $my_content .= '<table style="width:100%">';
+            /*
+            foreach($dane_wolontariusza as $key => $value){
+                if(is_string($value)){
+                    $my_content .= '<tr>';
+                    $my_content .= '<td>';
+                    $my_content .= $key;
+                    $my_content .= '</td>';
+                    $my_content .= '<td>';
+                    $my_content .= $value;
+                    $my_content .= '</td>';
+                    $my_content .= '</tr>';
+                }
             }
-            $my_content .= var_dump($dane);
+            //$my_content .= var_dump($dane_wolontariusza);
+             * 
+             */
+            $my_content .= '<tr style="background:lightblue"><th colspan="4">DANE OSOBOWE</th></tr>';
+            $my_content .= '<tr><td style="width:30%">Imie i Nazwisko</td><td colspan="3">';
+            $my_content .= $dane_wolontariusza['imie'] . ' ' . $dane_wolontariusza['nazwisko'];
+            $my_content .= '</td></tr>';
+            $my_content .= '<tr><td style="width:30%">Nr dowodu osobistego</td><td colspan="3">';
+            $my_content .= $dane_wolontariusza['numer_dowodu'];
+            $my_content .= '</td></tr>';
+            $my_content .= '<tr><td style="width:30%">PESEL</td><td colspan="3">';
+            $my_content .= $dane_wolontariusza['pesel'];
+            $my_content .= '</td></tr>';
+            $my_content .= '<tr><td style="width:30%">E-mail</td><td colspan="3">';
+            $my_content .= $dane_uzytkownika->user_email;
+            $my_content .= '</td></tr>';
+            $my_content .= '<tr><td style="width:30%">Telefon</td><td colspan="3">';
+            $my_content .= $dane_wolontariusza['telefon'];
+            $my_content .= '</td></tr>';
+            $my_content .= '<tr><td style="width:30%">Numer konta bankowego</td><td colspan="3">';
+            $my_content .= $dane_wolontariusza['numer_konta'];
+            $my_content .= '</td></tr>';
+            $my_content .= '<tr style="background:lightblue"><th colspan="4">DANE O WOLONTARIACIE</th></tr>';
+            $my_content .= '<tr><td style="width:30%">Obsługa punktu</td><td style="width:30%; text-align:left">Pierwszy raz: ';
+            if($preferencja_dni_dziedzictwa['czy_uczestniczyl'] == 'nie'){
+                $my_content .= 'Tak';
+            }
+            $my_content .= '</td><td style="width:40%" colspan="2">Drugi raz/kolejny (wpisz liczbę edycji MDDK): ';
+            if($preferencja_dni_dziedzictwa['czy_uczestniczyl'] == 'tak'){
+                $my_content .= PHP_EOL . $preferencja_dni_dziedzictwa['liczba_udzialow'];
+            }
+            $my_content .= '</td></tr>';
+            $my_content .= '<tr><td style="width:30%">Preferowany weekend</td><td colspan = "3">';
+            $my_content .= $preferencja_dni_dziedzictwa['pref_weekend'];
+            $my_content .= '</td></tr>';
+            $my_content .= '<tr><td style="width:30%">Uwagi (osoby, które mieszkają w pobliżu któregoś obiektu na trasie pn-zach lub pd-wsch, mogą je wpisać jako preferowane miejsce odbycia wolontariatu)</td><td colspan = "3">';
+            $my_content .= $preferencja_dni_dziedzictwa['uwagi'];
+            $my_content .= '</td></tr>';
+            $my_content .= '<tr style="background:lightgreen"><th colspan="4">DZIAŁANIA DODATKOWE</th></tr>';
+            $my_content .= '<tr><td style="width:60%">Pakowanie materiałów promocyjnych</td><td colspan = "3">TAK/NIE*</td></tr>';
+            $my_content .= '<tr><td style="width:60%">Dystrybucja materiałów promocyjnych</td><td colspan = "3">TAK/NIE</td></tr>';
+            $my_content .= '<tr><td style="width:60%">Przygotowanie materiałów na punkty info</td><td colspan = "3">TAK/NIE</td></tr>';
+            $my_content .= '<tr><td style="width:60%">Infolinia</td><td colspan = "3">TAK/NIE</td></tr>';
+            $my_content .= '<tr><td style="width:60%">Ankiety</td><td colspan = "3">TAK/NIE</td></tr>';
+            $my_content .= '<tr style="background:lightgreen"><th colspan="4">WYNIKI REKRUTACJI</th></tr>';
+            $my_content .= '<tr><td style="width:30%">Data</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '<tr><td style="width:30%">Obiekt</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '<tr><td style="width:30%">Koordynator miejsca (MIK)</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '<tr><td style="width:30%">Funkcja</td><td colspan = "3">Obsługa punktu informacyjnego</td></tr>';
+            $my_content .= '<tr><td style="width:30%">Transport</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '<tr style="background:lightgreen"><th colspan="4">DZIAŁANIA DODATKOWE</th></tr>';
+            $my_content .= '<tr><td colspan = "2" style="width:40%"></td><td>DATA</td><td>GODZINY</td></tr>';
+            $my_content .= '<tr><td colspan = "2" style="width:40%">Pakowanie materiałów promocyjnych</td><td style="width:40%">&nbsp;</td><td style="width:20%">&nbsp;</td></tr>';
+            $my_content .= '<tr><td colspan = "2" style="width:40%">Dystrybucja materiałów promocyjnych</td><td style="width:40%">&nbsp;</td><td style="width:20%">&nbsp;</td></tr>';
+            $my_content .= '<tr><td colspan = "2" style="width:40%">Infolinia</td><td style="width:40%">&nbsp;</td><td style="width:20%">&nbsp;</td></tr>';
+            $my_content .= '<tr><td colspan = "2" style="width:40%">Przygotowanie materiałów na punkty info</td><td style="width:40%">&nbsp;</td><td style="width:20%">&nbsp;</td></tr>';
+            $my_content .= '<tr><td colspan = "2" style="width:40%">Ankiety</td><td style="width:40%">&nbsp;</td><td style="width:20%">&nbsp;</td></tr>';
+            $my_content .= '<tr><td colspan = "2" style="width:40%">UWAGI:</td><td style="width:40%">&nbsp;</td><td style="width:20%">&nbsp;</td></tr>';
+            $my_content .= '<tr style="background:lightgreen"><th colspan="4">UDZIAŁ W SPOTKANIACH</th></tr>';
+            $my_content .= '<tr><td style="width:40%">Spotkanie I, 31.03</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '<tr><td style="width:40%">Spotkanie II, 13.04</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '<tr><td style="width:40%">Spotkanie III, 27.04</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '<tr><td style="width:40%">Szkolenie z Wikimedia</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '<tr><td style="width:40%">Odprawa z koordynatorką trasy</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '<tr><td style="width:40%">Spotkanie ewaluacyjne, 15.06</td><td colspan = "3">&nbsp;</td></tr>';
+            $my_content .= '</table>';
+            $my_content .='<div style="margin-top:30px"><p>*Podreślić właściwe</p></div>';
             return $my_content;
         }
         //Pages can be filtered using post_name attribute f.e ["post_name"]=> string(15) "dni-dziedzictwa" 

@@ -63,8 +63,6 @@
                     else{
                         echo $error;
                     }
-                    //Add page reload - either in PHP or JS - the header stuff doesn't seem to work
-                    //header("Refresh:0");
                 }
                 ?>
                 <div class="col-md-3">
@@ -103,9 +101,7 @@
                 if($posts): ?>
                 <div class="col-md-3 col-md-offset-1">
                     <ul>
-
                     <?php foreach( $posts as $post ): 
-
                             setup_postdata( $post );
                             if(has_term('wazne','priorytet')):?>
                             <div class="alert alert-danger" role="alert">

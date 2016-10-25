@@ -63,14 +63,8 @@
     $user_is_admin = false;
     if(is_user_logged_in()){
         $user_id = get_current_user_id();
-      //  echo $user_id;
         $user = get_user_by('id', $user_id);
         $wolontariusz_id = get_user_meta($user_id, 'wolontariusz_id', true);
-        //var_dump(get_post_meta(get_the_ID()));
-       // var_dump($user);
-        //echo get_the_ID();
-        //echo "\n";
-        //echo $wolontariusz_id;
         if($wolontariusz_id == get_the_ID() || current_user_can('delete_posts')){
             $user_validated = true;
         }
@@ -80,19 +74,15 @@
             //include_once("/pages/403.html");
             echo '<h1>403 FORBIDDEN</h1>';
             exit;
-         //   echo "h"
-          //  $user_validated = false;
         }
         $user_is_admin  = (current_user_can('delete_posts')) ? true : false;
-       // var_dump($user_is_admin);
-       // var_dump($user_validated);
-    }
+        }
     else{
         //echo "Please log in";
-        auth_redirect();
+        //auth_redirect();
         //header("HTTP/1.1 302 Moved Temporary");
-       // header("Location: http://localhost/wordpress/wp-login");
-       // exit();
+        //header("Location: http://localhost/wordpress/wp-login");
+        exit();
         //TODO Add loging page redirect
     }
     if(isset($_POST['submit'])){
@@ -114,12 +104,14 @@
             <div class="row text-center">
             <?php 
                 $current_post_id = get_the_ID();
-                //echo $current_post_id;
-                $data = get_fields();
+            $data = get_fields();
+                $user_meta = get_userdata($data['uzytkownik_id']);
                 var_dump($data);
+                var_dump($user_meta);
+                echo $user_meta->user_email;
+                $preferencja_dni_dziedzictwa = get_fields($data['preferencja']->ID);
+                var_dump($preferencja_dni_dziedzictwa);
                 $data_objects = get_field_objects($current_post_id);
-            //    var_dump($data_objects);
-            //    var_dump($data);
                 $wolontariusz = false;
                 $praktykant = false;
                 if($data['typ_uzytkownika'] == 'wolontariusz'){
@@ -218,7 +210,6 @@
                             elseif($value['value'] == 'wolontariusz'){
                                 $wolontariusz = true;
                             }
-                            //echo "<div class='form-group'><label>Typ uzytkownika</label><div class='input-group'><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='wolontariusz' " .($wolontariusz == true ? "checked" : '') . ">Wolontariusz</label><label class='radio-inline'><input disabled type='radio' name={$value['name']} id='typ_uzytkownika' value='praktykant'" . ($praktykant == true ? "checked" : '') . ">Praktykant</label><span class='input-group-btn'><button onclick='allowRadioEdit(this)'class='btn btn-warning' type='button'>Edytuj <i class='glyphicon glyphicon-pencil'></i></button></span></div>";
                             echo display_ACF_radio_group($value);
                         }
                         elseif ($value['name'] == 'preferencja') {
@@ -254,22 +245,7 @@
                         <button type="submit" name="submit" class="btn btn-default">Submit</button>
                         </div>  
                      </form>
-                 </div>
-                   
-        </div>
-        <!--
-                    <div class="row">
-                        <div class="col-md-4 col-md-offset-3">
-                            <?php /* The loop */ ?>
-			<?php //while ( have_posts() ) : the_post(); ?>
-
-				<?php //acf_form(); ?>
-
-                        <?php //endwhile; ?>
-                        </div>
-                    </div>
-        -->
-                
+                 </div>       
             </div>
         </div>
     </div>

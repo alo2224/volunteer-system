@@ -1,4 +1,10 @@
 <?php get_header(); ?>
+<style>
+    .table-container{
+        width: 50%;
+        margin: 0 auto;
+    }
+</style>
 <div class="row">
     <div class="col-md-1">
     <?php get_sidebar(); ?>
@@ -6,7 +12,9 @@
     <div class="col-md-11">
 <?php 
 if(!is_user_logged_in()){
-    auth_redirect();
+    //auth_redirect();
+    //wp_redirect( wp_login_url());
+    exit;
 }
 else{
     $user_is_admin  = (current_user_can('delete_posts')) ? true : false;
@@ -19,24 +27,22 @@ else{
                 'post_type'		=> 'wolontariusz'
         ));
         if( $posts ): ?>
-            <div>	
+            <div class="table-container">	
                     <table class="table table-hover">
                         <tr>
                             <th>Imie</th>
                             <th>Naziwsko</th>
-                            <th>ID</th>
                             <th>Strona wolontariusza</th>
                         </tr>
                         <?php 
                             foreach( $posts as $post ): 
                                 setup_postdata( $post );
                                 $current_user_id = get_field('uzytkownik_id', $post->id);
-                                $data = get_wolontariusz_data($current_user_id);
+                                $data = get_fields($post->id);
                         ?>
                         <tr>
                             <td><?php echo $data['imie']?></td>
                             <td><?php echo $data['nazwisko']?></td>
-                            <td><?php echo $current_user_id?></td>
                             <td style="width:20%"><a href = "<?php echo the_permalink();?>">Profil</a></td>
                         </tr>  
                         <?php endforeach; ?>
