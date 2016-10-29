@@ -87,7 +87,16 @@
     }
     if(isset($_POST['submit'])){
        try{
-           update_wolontariusz_data($wolontariusz_id, $_POST);
+           if(isset($_FILES) && !empty($_FILES)){
+               if(empty($wolontariusz_id)){
+                   $wolontariusz_id = get_the_ID();
+               }
+               upload_wolontariusz_file($wolontariusz_id, $_FILES);
+           }
+           else{
+               update_wolontariusz_data($wolontariusz_id, $_POST);
+           }
+           
        }
        catch(Exception $e){
            echo 'Unexpected error' , $e->getMessage();
@@ -104,13 +113,15 @@
             <div class="row text-center">
             <?php 
                 $current_post_id = get_the_ID();
-            $data = get_fields();
+                $data = get_fields();
                 $user_meta = get_userdata($data['uzytkownik_id']);
-                var_dump($data);
-                var_dump($user_meta);
-                echo $user_meta->user_email;
-                $preferencja_dni_dziedzictwa = get_fields($data['preferencja']->ID);
-                var_dump($preferencja_dni_dziedzictwa);
+                //var_dump($data);
+                //var_dump($user_meta);
+                //echo $user_meta->user_email;
+                if($data['preferencja'] != false){
+                    $preferencja_dni_dziedzictwa = get_fields($data['preferencja']->ID);
+                   // var_dump($preferencja_dni_dziedzictwa);
+                }
                 $data_objects = get_field_objects($current_post_id);
                 $wolontariusz = false;
                 $praktykant = false;
@@ -194,6 +205,7 @@
                      <form enctype="multipart/form-data" method="post" action="">
                      
                      <?php 
+                    // var_dump($data_objects);
                      foreach ($data_objects as $key => $value){
                          //var_dump($key);
                          //var_dump($value);
@@ -210,7 +222,7 @@
                             elseif($value['value'] == 'wolontariusz'){
                                 $wolontariusz = true;
                             }
-                            echo display_ACF_radio_group($value);
+                            echo display_ACF_radio_group($value, true);
                         }
                         elseif ($value['name'] == 'preferencja') {
                             if($value['value'] == NULL){
@@ -228,16 +240,20 @@
                                        $input_value = $value1['value'];     
                                     }
                                     if($value1['type'] == 'radio'){
-                                        echo display_ACF_radio_group($value1);
+                                        echo display_ACF_radio_group($value1, false);
                                     }
                                     else{
-                                        echo display_ACF_input_group($value1, $input_value);
+                                        echo display_ACF_input_group($value1, $input_value, false);
                                     }
                                 }
                             }
                         }
+                        elseif($value['type'] == 'file'){
+                           // var_dump($value['value']);
+                            echo display_ACF_file_attachment($value);
+                        }
                         else{
-                            echo display_ACF_input_group($value, $input_value);
+                            echo display_ACF_input_group($value, $input_value, true);
                         }     
                     }
                      ?>

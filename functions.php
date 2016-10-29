@@ -129,7 +129,7 @@ function wolontariat_register_form() {
         if ( empty( $_POST['numer_dowodu'] ) || ! empty( $_POST['numer_dowodu'] ) && trim( $_POST['numer_dowodu'] ) == '' ){
             $errors->add( 'numer_dowodu_error', __( '<strong>Blad!</strong>: Musisz wpisać numer dowodu!.', 'mydomain' ) );
         }
-        elseif(strlen($_POST['numer_dowodu']) != 9 || strlen($_POST['numer_dowodu']) != 10){
+        elseif(strlen($_POST['numer_dowodu']) != 9 && strlen($_POST['numer_dowodu']) != 10){
              $errors->add( 'numer_dowodu_error', __( '<strong>Blad!</strong>: Wpisz poprawny numer dowodu!.', 'mydomain' ) );
         }
         if ( empty( $_POST['adres'] ) || ! empty( $_POST['adres'] ) && trim( $_POST['adres'] ) == '' ){

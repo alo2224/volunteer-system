@@ -7,21 +7,6 @@ Template name: dni-dziedzictwa
 */
 
 ?>
-<script>
-    window.onload = function(){
-        var radioButtonTak = document.getElementById('tak');
-        var radioButtonNie = document.getElementById('nie');
-        var daneInputForm = document.getElementById('liczba_udzialow_form');
-        radioButtonTak.onclick = function(){
-            daneInputForm.style.display = "block";
-        };
-        radioButtonNie.onclick = function(){
-            daneInputForm.style.display = "none";
-            var daneInputField = document.getElementById('liczba_udzialow');
-            daneInputField.value='';
-        }
-    };
-</script>
 <?php get_header();?>
 <?php 
 if(!is_user_logged_in()){
@@ -31,12 +16,12 @@ if(!is_user_logged_in()){
         exit();
         //TODO Add loging page redirect
 }
-var_dump(get_post(get_the_ID()));
+//var_dump(get_post(get_the_ID()));
 $user_id = get_current_user_id();
 if(isset($_POST['submit'])){
     $fields = array();
     $fields = array_map('sanitize_text_field', $_POST);
-    var_dump($fields);
+    //var_dump($fields);
     $pref_id = create_preferencja_post($user_id, $fields);
     $wolontariusz_id = get_user_meta($user_id, 'wolontariusz_id', true);
     $preferencja_field = 'field_57fd46a4ff0d9';
@@ -86,7 +71,7 @@ if(isset($_POST['submit'])){
                                         <input type="radio" name="czy_uczestniczyl" id="nie" value="nie" > Nie
                                     </label>
                                 </div>
-                                <div hidden class="form-group" id="liczba_udzialow_form">
+                                <div style="display:none" class="form-group" id="liczba_udzialow_form">
                                     <label>Ilosc udzialow</label>
                                     <input class="form-control" name="liczba_udzialow" id="liczba_udzialow" value="">
                                 </div>
@@ -106,6 +91,19 @@ if(isset($_POST['submit'])){
                 </div>
             </div>
     </div>
+<script>
+        var radioButtonTak = document.getElementById('tak');
+        var radioButtonNie = document.getElementById('nie');
+        var daneInputForm = document.getElementById('liczba_udzialow_form');
+        radioButtonTak.onclick = function(){
+            daneInputForm.style.display = "block";
+        };
+        radioButtonNie.onclick = function(){
+            daneInputForm.style.display = "none";
+            var daneInputField = document.getElementById('liczba_udzialow');
+            daneInputField.value='';
+        }
+</script>
 <div class="row">
 <?php get_footer(); ?>
 </div>

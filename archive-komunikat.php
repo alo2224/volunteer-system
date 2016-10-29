@@ -99,7 +99,7 @@
                 'post_type'		=> 'komunikat'
                 ));
                 if($posts): ?>
-                <div class="col-md-3 col-md-offset-1">
+                <div class="col-md-3 <?php if($user_is_admin){echo 'col-md-offset-1';}?>">
                     <ul>
                     <?php foreach( $posts as $post ): 
                             setup_postdata( $post );

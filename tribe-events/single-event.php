@@ -39,7 +39,6 @@ $post_meta = get_post_meta($event_id);
 $wolontariusz_id = get_user_meta(get_current_user_id(), 'wolontariusz_id', true);
 if(isset($_POST['submit'])){
        try{
-           
            $ilosc_godzin = $_POST['ilosc_godzin'];
            $result = add_attendee_to_event( $wolontariusz_id, $ilosc_godzin, $event_id);
        }
@@ -49,10 +48,12 @@ if(isset($_POST['submit'])){
     }
 $bool_wolontariusz_zapisany = false;
 $uczestnicy = (get_post_meta($event_id, 'uczestnicy', true));
-foreach($uczestnicy as $key => $value){
-    if($key == $wolontariusz_id){
-        echo "Jesteś juz zapisany na to wydarzenie!";
-        $bool_wolontariusz_zapisany = true;
+if(!empty($uczestnicy)){
+    foreach($uczestnicy as $key => $value){
+        if($key == $wolontariusz_id){
+            echo "Jesteś juz zapisany na to wydarzenie!";
+            $bool_wolontariusz_zapisany = true;
+        }
     }
 }
 ?>

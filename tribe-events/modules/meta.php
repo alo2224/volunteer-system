@@ -57,10 +57,12 @@ if ( tribe_has_organizer() ) {
                 
             <?php 
             $i = 1;
-            foreach($event_attendees as $key => $value){
-                $volunteer_objects = get_fields($key);
-                echo  $i . '. ' . $volunteer_objects['imie'] . ' ' . $volunteer_objects['nazwisko'] . ' ' . $value . 'h';
-                $i++;
+            if(!empty($event_attendees)){
+                foreach($event_attendees as $key => $value){
+                    $volunteer_objects = get_fields($key);
+                    echo  $i . '. ' . $volunteer_objects['imie'] . ' ' . $volunteer_objects['nazwisko'] . ' ' . $value . 'h <br>';
+                    $i++;
+                }
             }
             ?> </div>
 <?php
