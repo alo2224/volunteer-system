@@ -376,6 +376,29 @@ function my_login_redirect( $redirect_to, $request, $user ) {
 }
 
 add_filter( 'login_redirect', 'my_login_redirect', 10, 3 );
+// Redefine user notification function - send mail after registration 
+if ( !function_exists('wp_new_user_notification') ) {
+    function wp_new_user_notification( $user_id, $plaintext_pass = '' ) {
+        $user = new WP_User($user_id);
+        $user_login = stripslashes($user->user_login);
+        $user_email = stripslashes($user->user_email);
+        $message  = sprintf(__('New user registration on your blog %s:'), get_option('blogname')) . "\r\n\r\n";
+        $message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
+        $message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
+       // @wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), get_option('blogname')), $message);
+        if ( empty($plaintext_pass) )
+            return;
+        $message  = __('Hi there,') . "\r\n\r\n";
+        $message .= sprintf(__("Welcome to %s! Here's how to log in:"), get_option('blogname')) . "\r\n\r\n";
+        $message .= wp_login_url() . "\r\n";
+        $message .= sprintf(__('Username: %s'), $user_login) . "\r\n";
+        $message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n\r\n";
+        $message .= sprintf(__('If you have any problems, please contact me at %s.'), get_option('admin_email')) . "\r\n\r\n";
+        $message .= __('Adios!');
+       // wp_mail($user_email, sprintf(__('[%s] Your username and password'), get_option('blogname')), $message);
+
+    }
+}
 //defines the template for pdf creation
 add_filter('bwsplgns_get_pdf_print_content', 
     function( $content ) {
@@ -386,6 +409,7 @@ add_filter('bwsplgns_get_pdf_print_content',
             $dane_wolontariusza = get_fields($current_post_id);
             $dane_uzytkownika = get_userdata($dane_wolontariusza['uzytkownik_id']);
             $preferencja_dni_dziedzictwa = get_fields($dane_wolontariusza['preferencja']->ID);
+            $my_content .= '<style>table{font-family: "Times New Roman";}</style>';
             $my_content .= '<table style="width:100%">';
             /*
             foreach($dane_wolontariusza as $key => $value){

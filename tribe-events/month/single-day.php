@@ -12,14 +12,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
-if(!is_user_logged_in()){
-        //echo "Please log in";
-        header("HTTP/1.1 302 Moved Temporary");
-        header("Location: http://localhost/wordpress/wp-login");
-        exit();
-        //TODO Add loging page redirect
-}
-
 $day = tribe_events_get_current_month_day();
 $events_label = ( 1 === $day['total_events'] ) ? tribe_get_event_label_singular() : tribe_get_event_label_plural();
 ?>

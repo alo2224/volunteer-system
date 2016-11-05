@@ -19,13 +19,6 @@
  * @version  4.3
  *
  */
-if(!is_user_logged_in()){
-        //echo "Please log in";
-        header("HTTP/1.1 302 Moved Temporary");
-        header("Location: http://localhost/wordpress/wp-login");
-        exit();
-        //TODO Add loging page redirect
-}
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
@@ -51,7 +44,7 @@ $uczestnicy = (get_post_meta($event_id, 'uczestnicy', true));
 if(!empty($uczestnicy)){
     foreach($uczestnicy as $key => $value){
         if($key == $wolontariusz_id){
-            echo "Jesteś juz zapisany na to wydarzenie!";
+           // echo "Jesteś juz zapisany na to wydarzenie!";
             $bool_wolontariusz_zapisany = true;
         }
     }

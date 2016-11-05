@@ -16,13 +16,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
-if(!is_user_logged_in()){
-        //echo "Please log in";
-        header("HTTP/1.1 302 Moved Temporary");
-        header("Location: http://localhost/wordpress/wp-login");
-        exit();
-        //TODO Add loging page redirect
-}
 $event_id = get_the_ID();
 $event_fields = get_fields();
 $post_meta = get_post_meta($event_id);

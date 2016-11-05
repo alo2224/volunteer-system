@@ -3,18 +3,7 @@
 #submit{margin-top:7px;}
 .alert{padding:5px; margin-bottom: 5px;}
 </style>
-<?php if(!is_user_logged_in()){
-        //echo "Please log in";
-        auth_redirect();
-        header("HTTP/1.1 302 Moved Temporary");
-        header("Location: http://localhost/wordpress/wp-login");
-        exit();
-        //TODO Add loging page redirect
-}
-    else{
-        $user_is_admin  = (current_user_can('delete_posts')) ? true : false;
-    }
-?>
+<?php$user_is_admin  = (current_user_can('delete_posts')) ? true : false;?>
 <div id="main" class="site-main container-fluid">
     <div class="row">
         <div class="col-md-1">

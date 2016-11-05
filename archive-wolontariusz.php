@@ -11,16 +11,8 @@
     </div>
     <div class="col-md-11">
 <?php 
-if(!is_user_logged_in()){
-    //auth_redirect();
-    //wp_redirect( wp_login_url());
-    exit;
-}
-else{
-    $user_is_admin  = (current_user_can('delete_posts')) ? true : false;
-    do_action( 'bwsplgns_display_pdf_print_buttons', 'top' );
-    
-}
+$user_is_admin  = (current_user_can('delete_posts')) ? true : false;
+do_action( 'bwsplgns_display_pdf_print_buttons', 'top' );
     if($user_is_admin):
         $posts = get_posts(array(
                 'posts_per_page'	=> -1,

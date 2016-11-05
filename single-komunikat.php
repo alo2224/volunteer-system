@@ -1,13 +1,4 @@
 <?php get_header();?>
-<?php if(!is_user_logged_in()){
-        //echo "Please log in";
-        header("HTTP/1.1 302 Moved Temporary");
-        header("Location: http://localhost/wordpress/wp-login");
-        exit();
-        //TODO Add loging page redirect
-}
-//do_action( 'bwsplgns_display_pdf_print_buttons', 'bottom' );
-?>
 <div id="main" class="site-main container-fluid">
     <div class="row">
         <div class="col-md-1">

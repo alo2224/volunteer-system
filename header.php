@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/bootstrap.min.css" />
 <link rel="stylesheet" href=<?php echo get_stylesheet_uri(); ?>>
 <?php
+//Has to be located here since if there is any output already generated the redirect won't work
+ if(!is_user_logged_in()){
+     auth_redirect();
+ }
 wp_enqueue_script("jquery");
 add_theme_support( 'automatic-feed-links' );
 //add_theme_support( "title-tag" );

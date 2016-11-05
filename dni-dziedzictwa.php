@@ -8,14 +8,7 @@ Template name: dni-dziedzictwa
 
 ?>
 <?php get_header();?>
-<?php 
-if(!is_user_logged_in()){
-        //echo "Please log in";
-        header("HTTP/1.1 302 Moved Temporary");
-        header("Location: http://localhost/wordpress/wp-login");
-        exit();
-        //TODO Add loging page redirect
-}
+<?php
 //var_dump(get_post(get_the_ID()));
 $user_id = get_current_user_id();
 if(isset($_POST['submit'])){

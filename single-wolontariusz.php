@@ -10,6 +10,7 @@
         console.log(iloscGodzinForm);
     }
     */
+   //Toogled on button click first
     var allowInputEdit = function(event){
         console.log(event);
         var parentDiv = event.parentNode.parentNode;
@@ -29,14 +30,16 @@
            if(!radioSpan[i].disabled){
                cancel = true;
            }
-           toogleEditButton(event, radioSpan[i], cancel);
+        toogleEditButton(event, radioSpan[i], cancel);
        }
     }
     var toogleEditButton = function (button, inputElement, cancel){
         button.innerHTML = '';
         var icon = document.createElement('i');
         icon.className = 'glyphicon ';
+        
         if(cancel){
+            inputElement.value = inputElement.oldValue;
             inputElement.disabled = true;
             icon.className += 'glyphicon-pencil ';
             var textElement = document.createTextNode('Edytuj ');
@@ -45,6 +48,7 @@
             button.appendChild(icon);
         }
         else if(!cancel){
+            inputElement.oldValue = inputElement.value;
             inputElement.disabled = false;
             icon.className += 'glyphicon-remove ';
             var textElement = document.createTextNode('Anuluj ');
@@ -53,7 +57,6 @@
             button.appendChild(icon);
         }
     }
-    
 </script>
 <?php //acf_form_head(); ?>
 <?php get_header(); ?>
@@ -61,30 +64,20 @@
     $user = 0;
     $user_validated = false;
     $user_is_admin = false;
-    if(is_user_logged_in()){
-        $user_id = get_current_user_id();
-        $user = get_user_by('id', $user_id);
-        $wolontariusz_id = get_user_meta($user_id, 'wolontariusz_id', true);
-        if($wolontariusz_id == get_the_ID() || current_user_can('delete_posts')){
-            $user_validated = true;
-        }
-        else{
-            //TODO SERVE PROPER 403 page
-            http_response_code(403);
-            //include_once("/pages/403.html");
-            echo '<h1>403 FORBIDDEN</h1>';
-            exit;
-        }
-        $user_is_admin  = (current_user_can('delete_posts')) ? true : false;
-        }
-    else{
-        //echo "Please log in";
-        //auth_redirect();
-        //header("HTTP/1.1 302 Moved Temporary");
-        //header("Location: http://localhost/wordpress/wp-login");
-        exit();
-        //TODO Add loging page redirect
+    $user_id = get_current_user_id();
+    $user = get_user_by('id', $user_id);
+    $wolontariusz_id = get_user_meta($user_id, 'wolontariusz_id', true);
+    if($wolontariusz_id == get_the_ID() || current_user_can('delete_posts')){
+        $user_validated = true;
     }
+    else{
+        //TODO SERVE PROPER 403 page
+        http_response_code(403);
+        //include_once("/pages/403.html");
+        echo '<h1>403 FORBIDDEN</h1>';
+        exit;
+    }
+    $user_is_admin  = (current_user_can('delete_posts')) ? true : false;
     if(isset($_POST['submit'])){
        try{
            if(isset($_FILES) && !empty($_FILES)){
@@ -258,7 +251,7 @@
                     }
                      ?>
                        <div>
-                        <button type="submit" name="submit" class="btn btn-default">Submit</button>
+                        <button type="submit" name="submit" class="btn btn-default">Zaktualizuj</button>
                         </div>  
                      </form>
                  </div>       
@@ -266,5 +259,11 @@
         </div>
     </div>
 </div>
+<script>
+    var pdfPrintDiv = document.getElementsByClassName('pdfprnt-bottom-right')[0];
+    var textNode = document.createTextNode('Kliknij aby wygenerowac PDF z danymi =>');
+    console.log(pdfPrintDiv.childNodes);
+    pdfPrintDiv.insertBefore(textNode, pdfPrintDiv.childNodes[0]);
+</script>
 <?php get_footer()?>
 
